@@ -8,11 +8,30 @@ try:
     from vllm.utils import random_uuid
     from vllm.entrypoints.openai.protocol import ErrorResponse
     from vllm import SamplingParams
-except ImportError:
+except ImportError as e:
     logging.warning(
-        "Error importing vllm, skipping related imports. This is ONLY expected when baking model into docker image from a machine without GPUs"
+        f"Error importing vllm: {e}. This is ONLY expected when baking model into docker image from a machine without GPUs"
     )
-    pass
+    # Provide fallback stubs so the module can at least load
+    import uuid
+
+    def random_uuid():
+        return str(uuid.uuid4())
+
+    class ErrorResponse:
+        def __init__(self, message, type, code):
+            self.message = message
+            self.type = type
+            self.code = code
+
+        def model_dump(self):
+            return {"message": self.message, "type": self.type, "code": self.code}
+
+    class SamplingParams:
+        def __init__(self, **kwargs):
+            for k, v in kwargs.items():
+                setattr(self, k, v)
+
 
 logging.basicConfig(level=logging.INFO)
 
