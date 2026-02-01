@@ -6,7 +6,7 @@ from time import time
 
 try:
     from vllm.utils import random_uuid
-    from vllm.entrypoints.openai.protocol import ErrorResponse
+    from vllm.entrypoints.openai.engine.protocol import ErrorResponse, ErrorInfo
     from vllm import SamplingParams
 except ImportError as e:
     logging.warning(
@@ -18,14 +18,26 @@ except ImportError as e:
     def random_uuid():
         return str(uuid.uuid4())
 
-    class ErrorResponse:
-        def __init__(self, message, type, code):
+    class ErrorInfo:
+        def __init__(self, message, type, code, param=None):
             self.message = message
             self.type = type
             self.code = code
+            self.param = param
+
+    class ErrorResponse:
+        def __init__(self, error):
+            self.error = error
 
         def model_dump(self):
-            return {"message": self.message, "type": self.type, "code": self.code}
+            return {
+                "error": {
+                    "message": self.error.message,
+                    "type": self.error.type,
+                    "code": self.error.code,
+                    "param": self.error.param,
+                }
+            }
 
     class SamplingParams:
         def __init__(self, **kwargs):
@@ -129,7 +141,9 @@ def create_error_response(
     err_type: str = "BadRequestError",
     status_code: HTTPStatus = HTTPStatus.BAD_REQUEST,
 ) -> ErrorResponse:
-    return ErrorResponse(message=message, type=err_type, code=status_code.value)
+    return ErrorResponse(
+        error=ErrorInfo(message=message, type=err_type, code=status_code.value)
+    )
 
 
 def get_int_bool_env(env_var: str, default: bool) -> bool:
