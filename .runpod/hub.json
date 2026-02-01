@@ -7,9 +7,12 @@
   "config": {
     "runsOn": "GPU",
     "containerDiskInGb": 150,
-    "gpuIds": "ADA_80_PRO,AMPERE_80",
+    "gpuIds": "AMPERE_24,ADA_24",
     "gpuCount": 1,
-    "allowedCudaVersions": ["12.9", "12.8", "12.7", "12.6", "12.5", "12.4"],
+    "allowedCudaVersions": [
+      "12.9",
+      "12.8"
+    ],
     "presets": [
       {
         "name": "deepseek-ai/deepseek-r1-distill-llama-8b",
@@ -196,6 +199,7 @@
           "name": "Max Model Length",
           "type": "number",
           "description": "Model context length.",
+          "default": 8192,
           "advanced": true
         }
       },
@@ -836,7 +840,7 @@
           "name": "Enforce Eager",
           "type": "boolean",
           "description": "Always use eager-mode PyTorch. If False (0), will use eager mode and CUDA graph in hybrid for maximal performance and flexibility",
-          "default": false,
+          "default": true,
           "advanced": true
         }
       },
@@ -1021,11 +1025,26 @@
           "type": "string",
           "description": "Parser for reasoning-capable models (enables reasoning mode)",
           "options": [
-            { "label": "None", "value": "" },
-            { "label": "DeepSeek R1", "value": "deepseek_r1" },
-            { "label": "Qwen3", "value": "qwen3" },
-            { "label": "Granite", "value": "granite" },
-            { "label": "Hunyuan A13B", "value": "hunyuan_a13b" }
+            {
+              "label": "None",
+              "value": ""
+            },
+            {
+              "label": "DeepSeek R1",
+              "value": "deepseek_r1"
+            },
+            {
+              "label": "Qwen3",
+              "value": "qwen3"
+            },
+            {
+              "label": "Granite",
+              "value": "granite"
+            },
+            {
+              "label": "Hunyuan A13B",
+              "value": "hunyuan_a13b"
+            }
           ],
           "default": "",
           "advanced": true

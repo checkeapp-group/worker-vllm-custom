@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.9.1-runtime-ubuntu24.04
+FROM nvidia/cuda:12.8.1-runtime-ubuntu24.04
 
 # Install Python and uv
 RUN apt-get update -y && \
@@ -8,7 +8,7 @@ RUN apt-get update -y && \
 
 ENV PATH="/root/.local/bin:$PATH"
 
-RUN ldconfig /usr/local/cuda-12.9/compat/
+RUN ldconfig /usr/local/cuda-12.8/compat/
 
 # Install Python dependencies
 COPY builder/requirements.txt /requirements.txt
