@@ -13,7 +13,7 @@ RUN ldconfig /usr/local/cuda-12.9/compat/
 # Install Python dependencies
 COPY builder/requirements.txt /requirements.txt
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install --system -r /requirements.txt
+    uv pip install --system --break-system-packages -r /requirements.txt
 
 # Setup for Option 2: Building the Image with the Model included
 ARG MODEL_NAME=""
