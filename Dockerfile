@@ -1,18 +1,19 @@
 FROM nvidia/cuda:12.9.1-runtime-ubuntu24.04
 
-RUN apt-get update -y \
-    && apt-get install -y python3-pip
+# Install Python and uv
+RUN apt-get update -y && \
+    apt-get install -y python3 curl && \
+    curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV PATH="/root/.local/bin:$PATH"
 
 RUN ldconfig /usr/local/cuda-12.9/compat/
 
 # Install Python dependencies
 COPY builder/requirements.txt /requirements.txt
-RUN --mount=type=cache,target=/root/.cache/pip \
-    python3 -m pip install --upgrade pip && \
-    python3 -m pip install --upgrade -r /requirements.txt
-
-# Install vLLM
-RUN python3 -m pip install vllm==0.15.0
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install --system -r /requirements.txt
 
 # Setup for Option 2: Building the Image with the Model included
 ARG MODEL_NAME=""
