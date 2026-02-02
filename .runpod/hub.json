@@ -23,6 +23,66 @@
     ],
     "env": [
       {
+        "key": "TOKENIZERS_PARALLELISM",
+        "input": {
+          "name": "Tokenizers Parallelism",
+          "type": "string",
+          "description": "Disable Hugging Face fast-tokenizers parallelism to avoid threadpool init issues in constrained environments.",
+          "default": "false",
+          "advanced": true
+        }
+      },
+      {
+        "key": "RAYON_NUM_THREADS",
+        "input": {
+          "name": "Rayon Num Threads",
+          "type": "number",
+          "description": "Limit Rust (rayon) threadpool size (used by tokenizers). Helps avoid EAGAIN/WouldBlock thread creation errors.",
+          "default": 1,
+          "advanced": true
+        }
+      },
+      {
+        "key": "OMP_NUM_THREADS",
+        "input": {
+          "name": "OMP Num Threads",
+          "type": "number",
+          "description": "Limit OpenMP thread usage.",
+          "default": 1,
+          "advanced": true
+        }
+      },
+      {
+        "key": "MKL_NUM_THREADS",
+        "input": {
+          "name": "MKL Num Threads",
+          "type": "number",
+          "description": "Limit Intel MKL thread usage.",
+          "default": 1,
+          "advanced": true
+        }
+      },
+      {
+        "key": "OPENBLAS_NUM_THREADS",
+        "input": {
+          "name": "OpenBLAS Num Threads",
+          "type": "number",
+          "description": "Limit OpenBLAS thread usage.",
+          "default": 1,
+          "advanced": true
+        }
+      },
+      {
+        "key": "NUMEXPR_NUM_THREADS",
+        "input": {
+          "name": "NumExpr Num Threads",
+          "type": "number",
+          "description": "Limit NumExpr thread usage.",
+          "default": 1,
+          "advanced": true
+        }
+      },
+      {
         "key": "MODEL_NAME",
         "input": {
           "name": "Model",
