@@ -1,10 +1,19 @@
 FROM nvidia/cuda:12.8.1-runtime-ubuntu24.04
 
-# Install Python and uv
+# Install Python + build toolchain + uv
 RUN apt-get update -y && \
-    apt-get install -y python3 curl && \
+    apt-get install -y --no-install-recommends \
+      python3 python3-dev \
+      curl \
+      build-essential \
+      && \
     curl -LsSf https://astral.sh/uv/install.sh | sh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV PATH="/root/.local/bin:$PATH"
+
+# (optional) make sure Triton finds a compiler explicitly
+ENV CC=/usr/bin/gcc CXX=/usr/bin/g++
 
 ENV PATH="/root/.local/bin:$PATH"
 
