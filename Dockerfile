@@ -41,7 +41,8 @@ ENV MODEL_NAME=$MODEL_NAME \
     HF_DATASETS_CACHE="${BASE_PATH}/huggingface-cache/datasets" \
     HUGGINGFACE_HUB_CACHE="${BASE_PATH}/huggingface-cache/hub" \
     HF_HOME="${BASE_PATH}/huggingface-cache/hub" \
-    HF_HUB_ENABLE_HF_TRANSFER=0 
+    HF_HUB_ENABLE_HF_TRANSFER=0 \
+    VLLM_MARLIN_USE_ATOMIC_ADD=1 
 
 ENV PYTHONPATH="/:/vllm-workspace"
 
