@@ -356,6 +356,7 @@
           "name": "Max Num Batched Tokens",
           "type": "number",
           "description": "Maximum number of batched tokens per iteration.",
+          "default": 8192,
           "advanced": true
         }
       },
